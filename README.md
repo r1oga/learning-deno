@@ -1,7 +1,4 @@
-# Planets
-Deno project
+Deno learning projects
 
-
-tsconfig.json
-package.json
-are just used to be able to use the typescript-deno-plugin within atom. Not necessary to run the app.
+`tsconfig.json` & `package.json`
+were used to be able to use the [typescript-deno-plugin](https://github.com/justjavac/typescript-deno-plugin) within atom and benefit from inline documentation. Deno doesn't require such files.
