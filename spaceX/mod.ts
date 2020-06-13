@@ -8,3 +8,16 @@ const downloadLaunchData = async () => {
 }
 
 await downloadLaunchData()
+
+// test a POST request
+// const res = await fetch('https://reqres.in/api/users', {
+//   method: 'POST',
+//   headers: {  "Content-Type": "application/json" },
+//   body: JSON.stringify({
+//     name: "Elon Musk",
+//     job: "billionaire"
+//   })
+// })
+//
+// const data = await res.json()
+// console.log(data)
