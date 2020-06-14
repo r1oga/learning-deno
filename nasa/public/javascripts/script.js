@@ -19,12 +19,9 @@ function loadLaunches() {
   // Load launches and sort by flight number.
 }
 
-function loadPlanets() {
-  // TODO: Once API is ready.
-  const planets = [
-    { kepler_name: 'Tattooine' },
-    { kepler_name: 'Coruscant'}
-  ]
+async function loadPlanets() {
+  const res = await fetch('/planets')
+  const planets = await res.json()
   
   const planetSelector = document.getElementById("planets-selector");
   planets.forEach((planet) => {
