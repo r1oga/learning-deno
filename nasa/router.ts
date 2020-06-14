@@ -44,4 +44,13 @@ router.post('/launches', async ({ request, response }) => {
   response.status = 201
 })
 
+router.delete('/launches/:id', ctx => {
+  if (ctx.params?.id) {
+    const res = launches.deleteOne(+ctx.params.id)
+    ctx.response.body = { success: res }
+  } else {
+    ctx.throw(400, 'Launch with that ID does not exist')
+  }
+})
+
 export default router

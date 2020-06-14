@@ -30,8 +30,10 @@ async function loadPlanets() {
   });
 }
 
-async function abortLaunch() {
-  
+async function abortLaunch(id) {
+  await fetch(`/launches/${id}`, { method: 'DELETE' })
+  await loadLaunches()
+  listUpcoming()
 }
 
 async function submitLaunch() {

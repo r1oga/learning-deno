@@ -67,3 +67,13 @@ export function addOne(data: Launch) {
     customers: ['r1oga', 'NASA']
   }))
 }
+
+export function deleteOne(id: number) {
+  // set to aborted instead of deleting
+  const aborted = launches.get(id)
+  if (aborted) {
+    aborted.upcoming = false
+    aborted.success = false
+  }
+  return aborted
+}
