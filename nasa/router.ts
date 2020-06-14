@@ -18,11 +18,22 @@ router.get('/', ({ response }) => {
 })
 
 router.get('/planets', ({ response }) => {
-response.body = planets.getAll()
+  response.body = planets.getAll()
 })
 
 router.get('/launches', ({ response }) => {
-response.body = launches.getAll()
+  response.body = launches.getAll()
+})
+
+router.get('/launches/:id', ctx => {
+  if (ctx.params?.id) {
+    const launch = launches.getOne(+ctx.params.id)
+    if (launch) {
+      ctx.response.body = launch
+    } else {
+      ctx.throw(400, 'Launch with that ID does not exist')
+    }
+  }
 })
 
 export default router
