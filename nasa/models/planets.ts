@@ -1,7 +1,12 @@
-  import { join } from 'https://deno.land/std/path/mod.ts'
-import { BufReader } from 'https://deno.land/std/io/bufio.ts'
-import { parse } from 'https://deno.land/std/encoding/csv.ts'
-import * as _ from 'https://deno.land/x/lodash@4.17.15-es/lodash.js'
+  import {
+    join,
+    BufReader,
+    parse,
+    _,
+    Application,
+    send,
+    log
+  } from '../deps.ts'
 
 // interface Planet {
 //   [key: string]: string
@@ -14,6 +19,15 @@ type Planet = Record<string, string>
 // same object is reused on subsequent loads and imports of planets.ts
 let planets: Planet[]
 
+export function filterHabitablePlanets(planets: Array<Planet>) {
+  return planets.filter(planet => {
+    const { koi_prad, koi_disposition, koi_srad } = planet
+    return koi_disposition === 'CONFIRMED'
+      && +koi_prad > 0.7 && +koi_prad < 1.3
+      && +koi_srad > 0.99 && +koi_srad < 1.01
+  })
+}
+
 async function loadPlanetsData () {
   const path = join('data', 'data.csv')
   const file = await Deno.open(path)
@@ -24,12 +38,7 @@ async function loadPlanetsData () {
   })
   Deno.close(file.rid)
 
-  const planets = (result as Array<Planet>).filter(planet => {
-    const { koi_prad, koi_disposition, koi_srad } = planet
-    return koi_disposition === 'CONFIRMED'
-      && +koi_prad > 0.7 && +koi_prad < 1.3
-      && +koi_srad > 0.99 && +koi_srad < 1.01
-  })
+  const planets = filterHabitablePlanets(result as Array<Planet>)
   return planets.map(planet => _.pick(planet, [
     'kepler_name',
     'koi_prad',
@@ -41,7 +50,7 @@ async function loadPlanetsData () {
 }
 
 planets = await loadPlanetsData()
-console.log(`${planets.length} habitable planets found`)
+log.info(`${planets.length} habitable planets found`)
 
 // Access layer
 export function getAllPlanets() {

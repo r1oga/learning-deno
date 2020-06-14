@@ -1,10 +1,19 @@
-import { Application, send } from 'https://deno.land/x/oak@v5.2.0/mod.ts'
-import * as log from 'https://deno.land/std/log/mod.ts'
+import { Application, send, log } from './deps.ts'
 
 import router from './router.ts'
 
 const app = new Application()
 const PORT = 8000
+
+await log.setup({
+  handlers: { console: new log.handlers.ConsoleHandler('INFO') },
+  loggers: {
+    default: {
+      level: 'INFO',
+      handlers: ['console']
+    }
+  }
+})
 
 app.use(async ({ request, response }, next) => {
   await next()
@@ -43,5 +52,6 @@ app.use(async ctx => {
 
 // only if executed as a program instead of imported as a module
 if (import.meta.main) {
+  log.info(`Starting server on port ${PORT}...`)
   app.listen({ port: PORT })
 }

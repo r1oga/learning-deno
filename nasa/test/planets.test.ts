@@ -1,34 +1,30 @@
 import { assertEquals, assertNotEquals } from 'https://deno.land/std/testing/asserts.ts'
 
-// shorthand
-Deno.test('Example test', () => {
-    assertEquals('deno', 'deno')
-    assertNotEquals({ runtime: 'deno'}, { runtime: 'node'})
-})
+import { filterHabitablePlanets } from '../models/planets.ts'
 
-Deno.test({
-  name: 'Example os test',
-  ignore: Deno.build.os === 'linux',
-  fn () {
-    assertEquals('deno', 'deno')
-    assertNotEquals({ runtime: 'deno'}, { runtime: 'nde'})
-  }
-})
+const EARTH = {
+  koi_disposition: 'CONFIRMED',
+  koi_prad: '1',
+  koi_srad: '1'
+}
+const NOT_CONFIRMED = { koi_disposition: 'FALSE POSITIVE' }
+const TOO_LARGE_PRAD = {
+  koi_disposition: 'CONFIRMED',
+  koi_prad: '1.5',
+  koi_srad: '1'
+}
+const TOO_LARGE_SRAD = {
+  koi_disposition: 'CONFIRMED',
+  koi_prad: '1',
+  koi_srad: '1.01'
+}
 
-// Force not checking for ops leaks
-Deno.test({
-  name: 'Example ops leak',
-  sanitizeOps: false,
-  fn() {
-    setTimeout(() => console.log('Async op'), 1000)
-  }
-})
-
-// Force not checking for resource leaks (not closing files)
-Deno.test({
-  name: 'Example resource leak',
-  sanitizeResources: false,
-  async fn() {
-    await Deno.open('./models/planets.ts')
-  }
+Deno.test('filter only habitable planets', () => {
+  const filtered = filterHabitablePlanets([
+    EARTH,
+    NOT_CONFIRMED,
+    TOO_LARGE_PRAD,
+    TOO_LARGE_SRAD
+  ])
+  assertEquals(filtered, [EARTH])
 })
