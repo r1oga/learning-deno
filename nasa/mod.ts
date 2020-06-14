@@ -20,13 +20,17 @@ app.use(async ({ response }, next) => {
 })
 
 app.use(async ctx => {
+  const filePath = ctx.request.url.pathname
+  const fileWhiteList = [
+    '/index.html',
+    '/javascripts/script.js',
+    '/stylesheets/style.css',
+    '/images/favicon.png'
+  ]
 
-
-  await send(
-    ctx,
-    ctx.request.url.pathname,
-    { root: `${Deno.cwd()}/public` }
-  )
+  if (fileWhiteList.includes(filePath)) {
+    await send(ctx, filePath, { root: `${Deno.cwd()}/public` })
+  }
 })
 
 app.use(async ({ response }, next) => {
