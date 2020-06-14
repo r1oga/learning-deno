@@ -1,4 +1,4 @@
-import { Application } from 'https://deno.land/x/oak@v5.2.0/mod.ts'
+import { Application, send } from 'https://deno.land/x/oak@v5.2.0/mod.ts'
 import * as log from 'https://deno.land/std/log/mod.ts'
 
 const app = new Application()
@@ -17,6 +17,16 @@ app.use(async ({ response }, next) => {
   // ie after the response body is set and returned
   const delta = Date.now() - start
   response.headers.set('X-Response-Time', `${delta}ms`)
+})
+
+app.use(async ctx => {
+
+
+  await send(
+    ctx,
+    ctx.request.url.pathname,
+    { root: `${Deno.cwd()}/public` }
+  )
 })
 
 app.use(async ({ response }, next) => {
