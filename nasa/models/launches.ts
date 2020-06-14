@@ -60,3 +60,10 @@ export function getAll() {
 export function getOne(id: number) {
   return launches.has(id) ? launches.get(id) : null
 }
+
+export function addOne(data: Launch) {
+  launches.set(data.flightNumber, Object.assign(data, {
+    upcoming: true,
+    customers: ['r1oga', 'NASA']
+  }))
+}

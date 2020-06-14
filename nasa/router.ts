@@ -36,4 +36,12 @@ router.get('/launches/:id', ctx => {
   }
 })
 
+router.post('/launches', async ({ request, response }) => {
+  // NO body-parser
+  const body = await request.body()
+  launches.addOne(body.value)
+  response.body = { success: true }
+  response.status = 201
+})
+
 export default router
