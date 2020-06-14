@@ -3,10 +3,15 @@ import { BufReader } from 'https://deno.land/std/io/bufio.ts'
 import { parse } from 'https://deno.land/std/encoding/csv.ts'
 import * as _ from 'https://deno.land/x/lodash@4.17.15-es/lodash.js'
 
-interface Planet {
-  [key: string]: string
-}
+// interface Planet {
+//   [key: string]: string
+// }
 
+// Planet interface shorthand
+type Planet = Record<string, string>
+
+// singleton, cached and and reused for all the modules of the app
+// same object is reused on subsequent loads and imports of planets.ts
 let planets: Planet[]
 
 async function loadPlanetsData () {
