@@ -1,5 +1,7 @@
 import { Router } from 'https://deno.land/x/oak@v5.2.0/mod.ts'
 
+import * as planets from './models/planets.ts'
+
 const router = new Router()
 
 router.get('/', ({ response }) => {
@@ -12,6 +14,10 @@ router.get('/', ({ response }) => {
 
       Mission Control API
 `
+})
+
+router.get('/planets', ({ response }) => {
+response.body = planets.getAllPlanets()
 })
 
 export default router

@@ -10,7 +10,7 @@ interface Planet {
 let planets: Planet[]
 
 async function loadPlanetsData () {
-  const path = join('.', 'data.csv')
+  const path = join('data', 'data.csv')
   const file = await Deno.open(path)
   const bufReader = new BufReader(file)
   const result = await parse(bufReader, {
