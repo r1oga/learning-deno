@@ -1,6 +1,8 @@
 import { Application, send } from 'https://deno.land/x/oak@v5.2.0/mod.ts'
 import * as log from 'https://deno.land/std/log/mod.ts'
 
+import router from './router.ts'
+
 const app = new Application()
 const PORT = 8000
 
@@ -19,6 +21,11 @@ app.use(async ({ response }, next) => {
   response.headers.set('X-Response-Time', `${delta}ms`)
 })
 
+// needs to be before next middleware so that api catches it
+app.use(router.routes())
+// be specific about not allowed methods
+app.use(router.allowedMethods())
+
 app.use(async ctx => {
   const filePath = ctx.request.url.pathname
   const fileWhiteList = [
@@ -33,18 +40,6 @@ app.use(async ctx => {
   }
 })
 
-app.use(async ({ response }, next) => {
-  response.body = `
-88888b.  8888b. .d8888b  8888b.
-888 "88b    "88b88K         "88b
-888  888.d888888"Y8888b..d888888
-888  888888  888     X88888  888
-888  888"Y888888 88888P'"Y888888
-
-      Mission Control API
-`
-  await next()
-})
 
 // only if executed as a program instead of imported as a module
 if (import.meta.main) {
