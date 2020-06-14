@@ -1,6 +1,7 @@
 import { Router } from './deps.ts'
 
 import * as planets from './models/planets.ts'
+import * as launches from './models/launches.ts'
 
 const router = new Router()
 
@@ -17,7 +18,11 @@ router.get('/', ({ response }) => {
 })
 
 router.get('/planets', ({ response }) => {
-response.body = planets.getAllPlanets()
+response.body = planets.getAll()
+})
+
+router.get('/launches', ({ response }) => {
+response.body = launches.getAll()
 })
 
 export default router

@@ -53,6 +53,6 @@ planets = await loadPlanetsData()
 log.info(`${planets.length} habitable planets found`)
 
 // Access layer
-export function getAllPlanets() {
+export function getAll() {
   return planets
 }

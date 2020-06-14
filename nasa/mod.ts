@@ -15,6 +15,20 @@ await log.setup({
   }
 })
 
+// error handling middleware
+app.use(async ({ response}, next) => {
+  try {
+    await next()
+  } catch(err) {
+    response.body = 'Internal server error'
+    throw err
+  }
+})
+
+app.addEventListener('error', event => {
+  log.error(event.error)
+})
+
 app.use(async ({ request, response }, next) => {
   await next()
   const time = response.headers.get('X-Response-Time')
