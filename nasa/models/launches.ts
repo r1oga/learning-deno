@@ -28,8 +28,8 @@ export const downloadLaunchData = async () => {
     const {
       flight_number: flightNumber,
       mission_name: mission,
-      rocket: { rocket_name: rocket, second_stage: { payloads },
-      launch_date_unix: launchDate },
+      rocket: { rocket_name: rocket, second_stage: { payloads } },
+      launch_date_unix: launchDate,
       upcoming,
       launch_success: success
      } = launch
