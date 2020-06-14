@@ -1,11 +1,11 @@
-let launches;
+let launches = []
 
-const numberHeading = "No.".padStart(5);
-const dateHeading = "Date".padEnd(15);
-const missionHeading = "Mission".padEnd(25);
-const rocketHeading = "Rocket".padEnd(22);
-const targetHeading = "Destination";
-const customersHeading = "Customers";
+const numberHeading = "No.".padStart(5)
+const dateHeading = "Date".padEnd(15)
+const missionHeading = "Mission".padEnd(25)
+const rocketHeading = "Rocket".padEnd(22)
+const targetHeading = "Destination"
+const customersHeading = "Customers"
 
 function initValues() {
   const today = new Date().toISOString().split("T")[0];
@@ -21,10 +21,15 @@ function loadLaunches() {
 
 function loadPlanets() {
   // TODO: Once API is ready.
-  // const planetSelector = document.getElementById("planets-selector");
-  // planets.forEach((planet) => {
-  //   planetSelector.innerHTML += `<option value="${planet.kepler_name}">${planet.kepler_name}</option>`;
-  // });
+  const planets = [
+    { kepler_name: 'Tattooine' },
+    { kepler_name: 'Coruscant'}
+  ]
+  
+  const planetSelector = document.getElementById("planets-selector");
+  planets.forEach((planet) => {
+    planetSelector.innerHTML += `<option value="${planet.kepler_name}">${planet.kepler_name}</option>`;
+  });
 }
 
 function abortLaunch() {
@@ -33,11 +38,25 @@ function abortLaunch() {
 }
 
 function submitLaunch() {
-  const target = document.getElementById("planets-selector").value;
-  const launchDate = new Date(document.getElementById("launch-day").value);
-  const mission = document.getElementById("mission-name").value;
-  const rocket = document.getElementById("rocket-name").value;
-  const flightNumber = launches[launches.length - 1].flightNumber + 1;
+  const target = document.getElementById("planets-selector").value
+  const launchDate = new Date(document.getElementById("launch-day").value)
+  const mission = document.getElementById("mission-name").value
+  const rocket = document.getElementById("rocket-name").value
+  const flightNumber = launches[launches.length - 1]?.flightNumber + 1 || 1
+  console.log(flightNumber)
+
+  const customers =  ['NASA', 'ESA']
+
+  launches.push({ 
+    target,
+    launchDate: launchDate / 1000,
+    mission,
+    rocket,
+    flightNumber,
+    customers,
+    upcoming: true
+  })
+  document.getElementById("launch-success").hidden = false
 
   // TODO: Once API is ready.
   // Submit above data to launch system and reload launches.
