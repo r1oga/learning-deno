@@ -16,10 +16,10 @@ await log.setup({
 })
 
 // error handling middleware
-app.use(async ({ response}, next) => {
+app.use(async ({ response }, next) => {
   try {
     await next()
-  } catch(err) {
+  } catch (err) {
     response.body = 'Internal server error'
     throw err
   }
@@ -55,14 +55,14 @@ app.use(async ctx => {
     '/index.html',
     '/javascripts/script.js',
     '/stylesheets/style.css',
-    '/images/favicon.png'
+    '/images/favicon.png',
+    '/videos/space.mp4'
   ]
 
   if (fileWhiteList.includes(filePath)) {
     await send(ctx, filePath, { root: `${Deno.cwd()}/public` })
   }
 })
-
 
 // only if executed as a program instead of imported as a module
 if (import.meta.main) {
